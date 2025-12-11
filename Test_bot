@@ -106,3 +106,17 @@ async def queue(ctx, arg):
         queues[guild_id] = [source]
 
     await ctx.send(f"Added to queue: {arg}")  
+
+
+
+@bot.event
+async def on_message(message):
+
+    if message.content == "38 W B":
+        await message.delete()
+        await message.channel.send("Fragile information")
+
+
+
+
+bot.run(TOKEN)
