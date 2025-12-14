@@ -32,6 +32,7 @@ bot = commands.Bot(command_prefix= '!', intents=intents)
 @bot.event
 async def on_ready():
     await bot.tree.sync()
+    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name="your commands!" ))
     print(f"{bot.user} is online!")
 
 # slash command /greet
@@ -111,6 +112,7 @@ async def queue(ctx, arg):
 
 
 
+# profanity filter
 @bot.event
 async def on_message(message):
 
@@ -148,5 +150,86 @@ async def ban_error(ctx, error):
 
 
 
+# unban command
+@bot.command()
+async def unban(ctx, *, member):
+    banned_users = await ctx.guild.bans()
+    member_name, member_discriminator = member.split('#')
 
-bot.run(TOKEN)
+    for ban_entry in banned_users:
+        user = ban_entry.user
+
+        if (user.name, user.discriminator) == (member_name, member_discriminator):
+            await ctx.guild.unban(user)
+            await ctx.send(f'Unbanned {user.mention}')
+            return
+        
+
+# error handling for unban command
+# @ban.error
+# async def unban_error(ctx, error):
+#     if isinstance(error, commands.MissingPermissions):
+#         await ctx.send("You do not have permission to ban members.")
+
+# # refined unban command with reason and permission check
+# @bot.command()
+# @has_permissions(administrator=True)
+# async def unban(ctx, member: discord.Member, *, reason=None):
+#     banned_users = await ctx.guild.bans()
+#     print(banned_users)
+#     member_name, member_discriminator = member.split('#')
+#     print(member_name)
+
+
+#     for ban_entry in banned_users:
+#         print(ban_entry)
+#         user = ban_entry.user
+
+#         if (user.name, user.discriminator) == (member_name, member_discriminator):
+#             await ctx.guild.unban(user, reason=reason)
+#             await ctx.send(f'User {user} has been unbanned.')
+#             return
+
+
+# error handling for unban command 
+# @unban.error
+# async def unban_error(ctx, error):
+#     if isinstance(error, commands.MissingPermissions):
+#         await ctx.send("You do not have permission to unban members.")
+
+
+
+# general error handling for commands
+@bot.command()
+async def on_command(ctx, error):
+    if isinstance(error, commands.BotMissingPermissions):
+        await ctx.send("You don't not have the required permissions to execute this command.")
+
+        
+
+
+#embed command
+@bot.command()
+async def embed(ctx):
+    embed = discord.Embed(title="Sample Embed", url="", description="This is an example of an embedded message.", color=0x008000)
+    embed.set_author(name="MyBot", url="", icon_url="https://i.imgur.com/rdm3W9t.png")
+    embed.set_thumbnail(url="https://i.imgur.com/rdm3W9t.png")
+    embed.add_field(name="Field 1", value="This is the value for field 1.", inline=False)
+    embed.add_field(name="Field 2", value="This is the value for field 2.", inline=True)
+    embed.add_field(name="Field 3", value="This is the value for field 3.", inline=True)
+    embed.set_footer(text="This is the footer text.", icon_url="https://i.imgur.com/rdm3W9t.png")
+    await ctx.send(embed=embed)
+
+        
+# direct message command
+@bot.command()
+async def message(ctx, user:discord.Member, *, message=None):
+    message = "Welcome to the server!" #if message is None else message
+    embed = discord.Embed(title=message)
+    await user.send(embed=embed)
+
+
+
+
+
+bot.run(TOKEN) 
