@@ -10,7 +10,6 @@ import json
 
 
 
-
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -25,7 +24,7 @@ def check_queue(ctx, id):
         source = queues[id].pop(0)
         player = voice.play(source)
 
-bot = commands.Bot(command_prefix= '!', intents=intents)
+bot = commands.Bot(command_prefix= "!", intents=intents)
 
 # event comands 
 # / slash comands
@@ -40,7 +39,6 @@ async def on_ready():
 async def greet(interaction: discord.Interaction):
     username = interaction.user.mention
     await interaction.response.send_message(f"Hello there, {username}")
-
 
 
 # !join command
