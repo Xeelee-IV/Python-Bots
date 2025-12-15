@@ -124,3 +124,26 @@ def get_check_queue_callback(ctx, guild_id):
     return check_queue
             
 
+# play and queue commands
+@bot.command()
+async def play(ctx, arg):
+    if not ctx.voice_client:
+        if ctx.author.voice:   # If the bot is not in a voice channel, join the user"s channel first
+            #channel = ctx.author.voice.channel
+            await ctx.author.voice.channel.connect()
+        else:
+            return await ctx.send("You are not connected to a voice channel. You must be in a voice channel to run this command.")
+            
+    
+    voice = ctx.voice_client
+    guild_id = ctx.guild.id
+    source = discord.FFmpegPCMAudio(arg)
+
+    if voice. is_playing() or voice.is_paused():
+        if guild_id not in queues:
+            queues[guild_id] = []
+        queues[guild_id].append(source)
+        await ctx.send(f"Added to queue: {arg}")
+    else:
+        voice.play(source, after=get_check_queue_callback(ctx, guild_id))
+        await ctx.send(f"Now playing: {arg}")
