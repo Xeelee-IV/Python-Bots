@@ -1,0 +1,45 @@
+{
+  "hi": [
+    "Hello!",
+    "Hi!",
+    "Hey there!"
+  ],
+  "hello": [
+    "Hello!",
+    "Hi!",
+    "Hey there!"
+  ],
+  "hey": [
+    "Hey!",
+    "Hi!",
+    "What's up?"
+  ],
+  "how are you": [
+    "I'm good!",
+    "All systems online!",
+    "Doing great, thanks!"
+  ],
+  "who are you": [
+    "I'm Gunter 🐧",
+    "I'm Gunter, at your service!"
+  ],
+  "bye": [
+    "Goodbye, see you later!"
+  ],
+  "ola": [
+    "Hello", 
+    "Hi!"
+  ],
+  "whose the admin": [
+    "Dexter is the admin!"
+  ],
+  "yo": [
+    "Hi!",
+    "Yo"
+  ],
+  "who is dexter?": [
+    "Admin",
+    "My creator/designer"
+  ]
+  
+}
